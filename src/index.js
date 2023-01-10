@@ -1,12 +1,12 @@
 const firebaseInstance = require('./firebase');
-const config = require('./firebase/config');
+var config = require("./serviceAccount.json");
+const { convertCSV } = require('./convertingCSV');
 
-const run = async () => {
+const run = async (collectionName) => {
   await firebaseInstance.initialFirebaseApp(config);
+  const fireStoreData = await firebaseInstance.getAllData(collectionName);
 
-  const datas = await firebaseInstance.getAllData();
-
-  console.log('result:', datas);
+  convertCSV(fireStoreData)
 }
 
 run();
